@@ -67,9 +67,11 @@ private:
     vector<cv::KeyPoint> keypoints_source;
     vector<cv::KeyPoint> keypoints_scene;
 
+
     // descriptors of points of interest
-    cv::Mat source_descriptor;
-    cv::Mat scene_descriptor;
+    cv::Mat descriptor_source;
+    cv::Mat descriptor_scene;
+
 
     // matching alogorytham (brute force or flann based)
     //cv::FlannBasedMatcher matcher;
