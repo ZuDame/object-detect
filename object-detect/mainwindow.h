@@ -68,8 +68,8 @@ private:
     vector<cv::KeyPoint> keypoints_scene;
 
     // descriptors of points of interest
-    cv::UMat img_source_descriptor;
-    cv::UMat img_scene_descriptor;
+    cv::Mat source_descriptor;
+    cv::Mat scene_descriptor;
 
     // matching alogorytham (brute force or flann based)
     //cv::FlannBasedMatcher matcher;
@@ -83,7 +83,7 @@ private:
     vector<cv::DMatch> matches;
     vector<cv::DMatch> good_matches;
 
-    // image (matrix) that contains matches that should be displayed
+    // image that contains lines matches that should be displayed
     // on top of the actial image as circles
     cv::UMat img_matches;
 
