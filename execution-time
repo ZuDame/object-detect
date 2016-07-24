@@ -1,0 +1,55 @@
+#########################################################################
+# Measuring execution time is done using QElapsedTimer from QT framework.
+# 
+# Note 1:
+# QElapsedTimer is measuring real world execution time, not cpu cycles,
+# so it is best to run the program without multitasking.
+#
+# Note 2:
+# Execution time results might difere from one operatyng sytem to other
+# even if the hardware is exact.
+#
+# Linux (Ubunut 14.04) for example provide more acurate way for measuring
+# time than Windows.
+#
+# Execution time is measured 10 times for each method, then calcualte the
+# average.
+#
+# Hardware used for testing:
+# CPU: Intel I5 2500 @ 3.3GHz
+# GPU: nVidia GTX 560
+# RAM: 8 GB // 2 x 2GB Kingston HyperX blu @ 1600 MHz + 1 x 4GB Kingston HyperX blu 8 GB @ 1600 MHz
+# SSD: Samsung 840 EVO 120 GB
+###########################################################################
+
+
+===========================================================================
+---------------------------------------------------------------------------
+Source image dimension: 324 x 223
+Scene image dimension: 512 x 384
+CPU is faster than GPU
+---------------------------------------------------------------------------
+
+Execution time on CPU:
+1. Detect and describe keypoints
+   surf->detectAndCompute(...) = 222ms avg
+
+2. Match keypoints
+   matcher.match(...) = 31ms avg
+
+---------------------------------------------------------------------------
+Execution time on GPU:
+1. Detect and describe keypoints without host->device->host memory transfer
+   surf_gpu(...) = 15ms avg
+
+   Detect and describe keypoints with host->device->host memory transfer
+   surf_gpu(...) = 287ms avg
+
+2 Match keypoints
+  matcher_gpu->match(...) = 1 ms avg
+===========================================================================
+---------------------------------------------------------------------------
+Source image dimension: 324 x 223
+Scene image dimension: 512 x 384
+CPU is faster than GPU
+---------------------------------------------------------------------------

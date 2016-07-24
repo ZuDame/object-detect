@@ -17,8 +17,8 @@
 
 #include "opencv2/cudafeatures2d.hpp"
 #include "opencv2/xfeatures2d/cuda.hpp"
-//#include "opencv2/xfeatures2d/nonfree.hpp"
-//#include "opencv2/opencv_modules.hpp"
+
+#include <QElapsedTimer>
 
 using namespace std;
 
@@ -58,6 +58,11 @@ private:
      * #                                #
      * ##################################
      */
+
+    // timer to measure execution time of methods
+    QElapsedTimer timer;
+
+
     // source image of the object and
     // image of the scene where we track for the object
     cv::Mat img_source;
@@ -67,11 +72,9 @@ private:
     vector<cv::KeyPoint> keypoints_source;
     vector<cv::KeyPoint> keypoints_scene;
 
-
     // descriptors of points of interest
     cv::Mat descriptor_source;
     cv::Mat descriptor_scene;
-
 
     // matching alogorytham (brute force or flann based)
     //cv::FlannBasedMatcher matcher;
