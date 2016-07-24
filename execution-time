@@ -38,6 +38,7 @@ Execution time on CPU:
    matcher.match(...) = 31ms avg
 
 ---------------------------------------------------------------------------
+
 Execution time on GPU:
 1. Detect and describe keypoints without host->device->host memory transfer
    surf_gpu(...) = 15ms avg
@@ -45,11 +46,32 @@ Execution time on GPU:
    Detect and describe keypoints with host->device->host memory transfer
    surf_gpu(...) = 287ms avg
 
-2 Match keypoints
-  matcher_gpu->match(...) = 1 ms avg
+2. Match keypoints
+   matcher_gpu->match(...) = 1 ms avg
+
 ===========================================================================
 ---------------------------------------------------------------------------
-Source image dimension: 324 x 223
-Scene image dimension: 512 x 384
+Source image dimension: 400 x 400
+Scene image dimension: 2560 x 1920
 CPU is faster than GPU
 ---------------------------------------------------------------------------
+
+Ececution time on CPU:
+1. Detect and describe keypoints:
+   surf -> detectAndCompute(...) = 2650ms avg
+
+2. Match keypoints
+   matcher.match(...) = 411ms avg
+
+---------------------------------------------------------------------------
+
+Execution time on GPU:
+1. Detect and describe keypoints without host->device->host memory transfer
+   surf_gpu(...) = 270ms avg
+
+   Detect and describe keypoints with host->device->host memory transfer
+   surf_gpu(...) =  554ms avg
+
+2. Match keypoints
+   matcher_gpu->match(...) = 24ms avg
+

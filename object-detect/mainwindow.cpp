@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 int MainWindow::loadImages(){
     // left image
-    img_source = cv::imread("/home/borche/Documents/git/object-detect/images/books-opencv/box.png", cv::IMREAD_GRAYSCALE);
+    img_source = cv::imread("/home/borche/Documents/git/object-detect/images/cd-shop/cover.jpg", cv::IMREAD_GRAYSCALE);
     if(img_source.empty()){
         string erormsg = "Left image (src) can not be loaded";
         cout << erormsg << endl;
@@ -30,7 +30,7 @@ int MainWindow::loadImages(){
     }
 
     // right image
-    img_scene = cv::imread("/home/borche/Documents/git/object-detect/images/books-opencv/box_in_scene.png", cv::IMREAD_GRAYSCALE);
+    img_scene = cv::imread("/home/borche/Documents/git/object-detect/images/cd-shop/cd-shop.jpg", cv::IMREAD_GRAYSCALE);
     if(img_scene.empty()){
         string errormsg = "Right image (scene) can not be loaded";
         cout << errormsg << endl;
@@ -77,8 +77,13 @@ void MainWindow::executeOnCpu(){
     // Step 2: describe points of interest
     //
     // Note that steps 1 and 2 can be done separate or together
+
+    timer.start();
+
     surf->detectAndCompute(img_source, cv::noArray(), keypoints_source, descriptor_source, false);
     surf->detectAndCompute(img_scene, cv::noArray(), keypoints_scene, descriptor_scene, false);
+
+    cout << "Detect and describe keypoints on CPU: " << timer.elapsed() << "ms" <<endl;
 
     // print result
     cout << "Keypoints on source image: " << keypoints_source.size() << endl;
@@ -91,7 +96,12 @@ void MainWindow::executeOnCpu(){
 
     // Step 3:
     // run matcher
+
+    timer.restart();
+
     matcher.match(descriptor_source, descriptor_scene, matches);
+
+    cout << "Match keypoints on CPU: " << timer.elapsed() << "ms" << endl;
 
     // print results
     cout << "Matches: " << matches.size() << endl;
@@ -211,8 +221,12 @@ void::MainWindow::executeOnGpu(){
 
     cv::cuda::SURF_CUDA surf_gpu(100);
 
+    timer.start();
+
     surf_gpu(img_source_gpu, cv::cuda::GpuMat(), keypoints_source_gpu, descriptor_source_gpu);
     surf_gpu(img_scene_gpu, cv::cuda::GpuMat(), keypoints_scene_gpu, descriptor_scene_gpu);
+
+    cout << "Detect and describe on GPU: " << timer.elapsed() << "ms" << endl;
 
     // print result in console
     cout << "Keypoints on source image on GPU: " << keypoints_source_gpu.cols << endl;
@@ -226,7 +240,11 @@ void::MainWindow::executeOnGpu(){
     cv::Ptr<cv::cuda::DescriptorMatcher> matcher_gpu = cv::cuda::DescriptorMatcher::createBFMatcher(surf_gpu.defaultNorm());
     vector<cv::DMatch> matches_gpu;
 
+    timer.restart();
+
     matcher_gpu->match(descriptor_source_gpu, descriptor_scene_gpu, matches_gpu);
+
+    cout << "Matching keypoints on GPU: " << timer.elapsed() << "ms" << endl;
 
     // print results
     cout << "Matches: " << matches_gpu.size() << endl;
