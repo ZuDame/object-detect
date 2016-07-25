@@ -1,10 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
 #include <QDebug>
 #include <QMessageBox>
-
+#include <QFileDialog>
+#include <QDir>
 
 using namespace std;
 
@@ -19,9 +19,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 int MainWindow::loadImages(){
     // left image
-    img_source = cv::imread("/home/borche/Documents/git/object-detect/images/cd-shop/cover.jpg", cv::IMREAD_GRAYSCALE);
+    img_source = cv::imread(img_source_path, cv::IMREAD_GRAYSCALE);
     if(img_source.empty()){
-        string erormsg = "Left image (src) can not be loaded";
+        string erormsg = "Left image (object/source) missing";
         cout << erormsg << endl;
         QMessageBox msg(this);
         msg.setText(erormsg.data());
@@ -30,9 +30,9 @@ int MainWindow::loadImages(){
     }
 
     // right image
-    img_scene = cv::imread("/home/borche/Documents/git/object-detect/images/cd-shop/cd-shop.jpg", cv::IMREAD_GRAYSCALE);
+    img_scene = cv::imread(img_scene_path, cv::IMREAD_GRAYSCALE);
     if(img_scene.empty()){
-        string errormsg = "Right image (scene) can not be loaded";
+        string errormsg = "Right image (scene) missing";
         cout << errormsg << endl;
         QMessageBox msg(this);
         msg.setText(errormsg.data());
@@ -41,6 +41,23 @@ int MainWindow::loadImages(){
     }
 
     return 1;
+}
+
+
+void MainWindow::on_pushButtonSourceImage_clicked()
+{
+    img_source_path = QFileDialog::getOpenFileName(this, "Open image of object to be tracked",
+                                                  QDir::homePath()).toStdString();
+
+    cout << "Path to source image: " << img_source_path << endl;
+}
+
+void MainWindow::on_pushButtonSceneImage_clicked()
+{
+    img_scene_path = QFileDialog::getOpenFileName(this, "Open image of scene where object will be tracked",
+                                                  QDir::homePath()).toStdString();
+
+    cout << "Path to scene image: " << img_scene_path << endl;
 }
 
 
@@ -398,9 +415,3 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-
-
-
-
-

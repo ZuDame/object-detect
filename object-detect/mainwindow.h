@@ -51,6 +51,10 @@ private slots:
 
     void on_pushButtonCpu_clicked();
 
+    void on_pushButtonSourceImage_clicked();
+
+    void on_pushButtonSceneImage_clicked();
+
 private:
     /* ##################################
      * #                                #
@@ -59,9 +63,12 @@ private:
      * ##################################
      */
 
+    // path to soruce and scene images
+    string img_source_path;
+    string img_scene_path;
+
     // timer to measure execution time of methods
     QElapsedTimer timer;
-
 
     // source image of the object and
     // image of the scene where we track for the object

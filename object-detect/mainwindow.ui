@@ -14,31 +14,57 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButtonCpu">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>99</width>
-      <height>27</height>
+      <y>200</y>
+      <width>371</width>
+      <height>29</height>
      </rect>
     </property>
-    <property name="text">
-     <string>CPU</string>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="pushButtonCpu">
+       <property name="text">
+        <string>Execute on CPU</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonGpu">
+       <property name="text">
+        <string>Execute on GPU</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
-   <widget class="QPushButton" name="pushButtonGpu">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>99</width>
-      <height>27</height>
+      <x>20</x>
+      <y>10</y>
+      <width>361</width>
+      <height>29</height>
      </rect>
     </property>
-    <property name="text">
-     <string>GPU</string>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="pushButtonSourceImage">
+       <property name="text">
+        <string>Load object</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonSceneImage">
+       <property name="text">
+        <string>Load scene</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
