@@ -202,6 +202,23 @@ void MainWindow::executeOnCpu(){
     // display final image
     cv::imshow("Good matches", img_matches);
 
+    // free memory
+    img_source.release();
+    img_scene.release();
+
+    matches.clear();
+    good_matches.clear();
+
+    keypoints_source.clear();
+    keypoints_scene.clear();
+
+    descriptor_source.release();
+    descriptor_scene.release();
+
+    H.release();
+
+    img_matches.release();
+
     // write two emtpy lines in log
     // this way it is beter for reading
     cout << "" << endl;
@@ -373,6 +390,22 @@ void::MainWindow::executeOnGpu(){
 
     // Step X:
     // release gpu memory
+
+    img_source.release();
+    img_scene.release();
+
+    good_matches.clear();
+
+    keypoints_source.clear();
+    keypoints_scene.clear();
+
+    descriptor_source.release();
+    descriptor_scene.release();
+
+    H.release();
+
+    img_matches.release();
+
     img_source_gpu.release();
     img_scene_gpu.release();
 
