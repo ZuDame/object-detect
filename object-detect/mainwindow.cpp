@@ -6,8 +6,9 @@
 #include <QFileDialog>
 #include <QDir>
 
-using namespace std;
+#include <QImage>
 
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 }
-
 
 int MainWindow::loadImages(){
     // left image
@@ -43,7 +43,6 @@ int MainWindow::loadImages(){
     return 1;
 }
 
-
 void MainWindow::on_pushButtonSourceImage_clicked()
 {
     img_source_path = QFileDialog::getOpenFileName(this, "Open image of object to be tracked",
@@ -60,7 +59,6 @@ void MainWindow::on_pushButtonSceneImage_clicked()
     cout << "Path to scene image: " << img_scene_path << endl;
 }
 
-
 void MainWindow::on_pushButtonCpu_clicked()
 {
     // first load iamges
@@ -71,7 +69,6 @@ void MainWindow::on_pushButtonCpu_clicked()
     }
 }
 
-
 void MainWindow::on_pushButtonGpu_clicked()
 {
     // first load iamges
@@ -81,7 +78,6 @@ void MainWindow::on_pushButtonGpu_clicked()
         executeOnGpu();
     }
 }
-
 
 void MainWindow::executeOnCpu(){
     // write log in console
@@ -200,7 +196,28 @@ void MainWindow::executeOnCpu(){
 
     // Step 10:
     // display final image
-    cv::imshow("Good matches", img_matches);
+// cv::imshow("Good matches", img_matches);
+
+    // print output_image chanels;
+    cout << "Output image has: " << img_matches.channels() << " chanels" << endl;
+
+    // draw image on qt form
+    QImage q_image;
+    QPixmap q_pixamp;
+    cv::Mat rgb_img_matches;
+
+    // convert  cv::bgr to cv::rgb
+    cv::cvtColor(img_matches, rgb_img_matches, CV_BGR2RGB);
+
+    // convert cv::rgb to qImage
+    q_image = QImage((const unsigned char *)rgb_img_matches.data,
+                     rgb_img_matches.cols,
+                     rgb_img_matches.rows,
+                     QImage::Format_RGB888);
+
+    q_pixamp = QPixmap::fromImage(q_image, Qt::AutoColor);
+
+    ui->labelOutputImage->setPixmap(q_pixamp);
 
     // free memory
     img_source.release();
@@ -386,7 +403,28 @@ void::MainWindow::executeOnGpu(){
 
     // Step 10:
     // display final image
-    cv::imshow("Good matches GPU", img_matches);
+//    cv::imshow("Good matches GPU", img_matches);
+
+    // print output_image chanels;
+    cout << "Output image has: " << img_matches.channels() << " chanels" << endl;
+
+    // draw image on qt form
+    QImage q_image;
+    QPixmap q_pixamp;
+    cv::Mat rgb_img_matches;
+
+    // convert  cv::bgr to cv::rgb
+    cv::cvtColor(img_matches, rgb_img_matches, CV_BGR2RGB);
+
+    // convert cv::rgb to qImage
+    q_image = QImage((const unsigned char *)rgb_img_matches.data,
+                     rgb_img_matches.cols,
+                     rgb_img_matches.rows,
+                     QImage::Format_RGB888);
+
+    q_pixamp = QPixmap::fromImage(q_image, Qt::AutoColor);
+
+    ui->labelOutputImage->setPixmap(q_pixamp);
 
     // Step X:
     // release gpu memory
@@ -425,7 +463,6 @@ void::MainWindow::executeOnGpu(){
     cout << "" << endl;
 }
 
-
 int MainWindow::checkForCudaCapableDevice(){
     int devices = cv::cuda::getCudaEnabledDeviceCount();
 
@@ -442,7 +479,6 @@ int MainWindow::checkForCudaCapableDevice(){
        return devices;
     }
 }
-
 
 MainWindow::~MainWindow()
 {
