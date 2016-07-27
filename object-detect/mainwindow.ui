@@ -276,7 +276,6 @@
        </item>
       </layout>
       <zorder>groupBox_5</zorder>
-      <zorder>groupBox_4</zorder>
       <zorder>groupBox_2</zorder>
       <zorder>groupBox</zorder>
       <zorder>groupBox_4</zorder>
@@ -317,6 +316,21 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>pushButtonSourceImage</tabstop>
+  <tabstop>pushButtonSceneImage</tabstop>
+  <tabstop>checkBoxDrawMatches</tabstop>
+  <tabstop>checkBoxDrawKeyPoints</tabstop>
+  <tabstop>spinBox</tabstop>
+  <tabstop>spinBox_2</tabstop>
+  <tabstop>pushButtonCpu</tabstop>
+  <tabstop>pushButtonGpu</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>lineEdit_3</tabstop>
+  <tabstop>lineEdit_7</tabstop>
+  <tabstop>lineEdit_8</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

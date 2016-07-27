@@ -70,37 +70,92 @@ private:
     // timer to measure execution time of methods
     QElapsedTimer timer;
 
-    // source image of the object and
-    // image of the scene where we track for the object
+    // minimal Hessian threshold for SURF
+    //
+    // an approximation of the Hessian matrix is built with the partial derivatives
+    // of the image intensities within a patch around the pixel
+    //
+    // the higher the minHessian the fewer keypoints it detect but
+    // each keypoint is more repetitive (usefull)
+    //
+    // a value between 400 and 800 works best.
+    int min_hessian;
+
+    // image of the object and
+    // image of the scene where we try to detect instance of the object
     cv::Mat img_source;
     cv::Mat img_scene;
 
-    // points of interest
+    cv::cuda::GpuMat img_source_gpu;
+    cv::cuda::GpuMat img_scene_gpu;
+
+    // points of interest determinated by SURF
     vector<cv::KeyPoint> keypoints_source;
     vector<cv::KeyPoint> keypoints_scene;
+
+    cv::cuda::GpuMat keypoints_source_gpu;
+    cv::cuda::GpuMat keypoints_scene_gpu;
 
     // descriptors of points of interest
     cv::Mat descriptor_source;
     cv::Mat descriptor_scene;
 
+    cv::cuda::GpuMat descriptor_source_gpu;
+    cv::cuda::GpuMat descriptor_scene_gpu;
+
+    // SURF
+    cv::Ptr<cv::xfeatures2d::SURF> surf;
+    cv::cuda::SURF_CUDA surf_gpu;
+
     // matching alogorytham (brute force or flann based)
     //cv::FlannBasedMatcher matcher;
     cv::BFMatcher matcher;
+    cv::Ptr<cv::cuda::DescriptorMatcher> matcher_gpu;
 
-    // distance for the matcher to accept match or not match
-    double max_dist = 0;
-    double min_dist = 100;
+    // distance to determine good matches
+    //
+    // only good matches are being drown later
+    double min_dist;
+    double max_dist;
 
-    // vectors of matching points
+    // matching points
     vector<cv::DMatch> matches;
     vector<cv::DMatch> good_matches;
 
-    // image that contains lines matches that should be displayed
-    // on top of the actial image as circles
-    cv::UMat img_matches;
+    // image to be displayed as final result
+    //
+    // contains matching points (circles) and a line between two matching points
+    cv::UMat img_processed;
 
-    // declare homography matrix
+    // homography matrix
     cv::Mat H;
+
+    // variables used for debugging
+    string log;
+
+    int img_processed_color_chanels;
+
+    int keypoints_source_number;
+    int keypoints_scene_number;
+
+    int descriptor_source_number_rows;
+    int descriptor_source_number_cols;
+
+    int descriptor_scene_number_rows;
+    int descriptor_scene_number_cols;
+
+    int matches_number;
+    int good_matches_number;
+
+    int surf_time_cpu;
+    int surf_time_gpu;
+
+    int matching_time_cpu;
+    int matching_time_gpu;
+
+    int memory_upload_time_gpu;
+    int memory_download_time_gpu;
+    int memory_total_time_gpu;
 
     // pointer to the form
     Ui::MainWindow *ui;
@@ -122,9 +177,43 @@ private:
     // note that this method is using absolute path to the images
     int loadImages();
 
+    // calculate minimal distance between two keypoints and
+    // maximum distance between two keypoints
+    //
+    // later it is used to filter(find) good_matches
+    void calculateMinAndMaxDistance();
+
     // return negative number and messagebox if no cuda capable device is found
     // return number of cuda capable devices if they are found
     int checkForCudaCapableDevice();
+
+    // filter good matches from all matches
+    void filterMatches();
+
+    // draw circles(keypoints) and lines (matches)
+    void drawKeyPointsAndMatches();
+
+    // localise source object on scene
+    //
+    // draw square if source object is found
+    void localiseObject();
+
+    // draw processed image on QT form
+    void drawProcessedImage();
+
+    // write and print log
+    void writeLog(string);
+
+    // free memory
+    void freeAllMemory();
+    void freeGpuMemory();
+    void freeCpuMemory();
+
+    // initialise default values
+    void initDefaultValues();
+
+    // reset min and max distances;
+    void resetMinAndMaxDistance();
 };
 
 #endif // MAINWINDOW_H
