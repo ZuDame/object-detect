@@ -36,17 +36,24 @@
           <string>Display options</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="0">
+          <item row="1" column="0">
            <widget class="QCheckBox" name="checkBoxDrawMatches">
             <property name="text">
              <string>Draw Matches</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="0" column="0">
            <widget class="QCheckBox" name="checkBoxDrawKeyPoints">
             <property name="text">
              <string>Draw Keypoints</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="checkBoxLocaliseObject">
+            <property name="text">
+             <string>Localise Object</string>
             </property>
            </widget>
           </item>
@@ -340,7 +347,6 @@
   <tabstop>pushButtonSourceImage</tabstop>
   <tabstop>pushButtonSceneImage</tabstop>
   <tabstop>checkBoxDrawMatches</tabstop>
-  <tabstop>checkBoxDrawKeyPoints</tabstop>
   <tabstop>spinBoxMinHessian</tabstop>
   <tabstop>spinBoxGoodMatchesThreshold</tabstop>
   <tabstop>pushButtonCpu</tabstop>
