@@ -148,12 +148,14 @@ void MainWindow::executeOnCpu(){
 
     // Step 9
     writeLog("cpu");
+    displayInfo();
+    displayExecutionTimeCpu();
     freeCpuMemory();
     resetMinAndMaxDistance();
 }
 
 
-void::MainWindow::executeOnGpu(){
+void MainWindow::executeOnGpu(){
     // check if cuda capable devices are found
     // if none is found then quit
     int cuda_devices_count = checkForCudaCapableDevice();
@@ -175,7 +177,10 @@ void::MainWindow::executeOnGpu(){
     // Step 1: detect points of interest
     // Step 2: describe points of interest
     //
-    // Note that steps 1 and 2 can be done separate or together
+    // Note1: steps 1 and 2 can be done separate or together
+    //
+    // Note 2: surf_gpu(...) throw 'OpenCV Error: Gpu API call (out of memory) in allocate' error
+    // when loading two 4k images
     surf_gpu = cv::cuda::SURF_CUDA(min_hessian);
 
     timer.restart();
@@ -253,6 +258,8 @@ void::MainWindow::executeOnGpu(){
 
     // Step 9
     writeLog("gpu");
+    displayInfo();
+    displayExecutionTimeGpu();
     freeGpuMemory();
     freeCpuMemory();
     resetMinAndMaxDistance();
@@ -270,7 +277,7 @@ void MainWindow::calculateMinAndMaxDistance(){
 void MainWindow::filterMatches(){
     for (int i = 0; i < descriptor_source.rows; i++)
     {
-        if (matches[i].distance <= max(2 * min_dist, 0.2))
+        if (matches[i].distance <= max(2 * min_dist, good_matches_threshold))
         {
             good_matches.push_back(matches[i]);
         }
@@ -409,6 +416,7 @@ void MainWindow::writeLog(string type){
     ss << "Descripotr scene: " << descriptor_scene_number_cols << " x " << descriptor_scene_number_rows << endl;
 
     ss << "Matches: " << matches_number << endl;
+    ss << "Good matches threshold: " << good_matches_threshold << endl;
     ss << "Good matches: " << good_matches_number << endl;
 
     ss << "Min dist: " << min_dist << endl;
@@ -463,8 +471,59 @@ void MainWindow::freeGpuMemory(){
     matcher_gpu.release();
 }
 
+void MainWindow::displayInfo(){
+    QString q_string_keypoints_source;
+    QString q_string_keypoints_scene;
+    QString q_keypoints;
+
+    QString q_string_matches;
+    QString q_string_good_matches;
+
+    // display keypoints
+    q_string_keypoints_source = QString::number(keypoints_source_number);
+    q_string_keypoints_scene = QString::number(keypoints_scene_number);
+
+    q_keypoints = QString();
+    q_keypoints.append(q_string_keypoints_source);
+    q_keypoints.append(" / ");
+    q_keypoints.append(q_string_keypoints_scene);
+
+    ui->lineEditKeyPoints->setText(q_keypoints);
+
+    // display matches
+    q_string_matches = QString::number(matches_number);
+    ui->lineEditMatches->setText(q_string_matches);
+
+    // display good matches
+    q_string_good_matches = QString::number(good_matches_number);
+    ui->lineEditGoodMatches->setText(q_string_good_matches);
+}
+
+void MainWindow::displayExecutionTimeCpu(){
+    QString q_string_execution_time_cpu;
+    int timeCpu;
+
+    timeCpu = surf_time_cpu + matching_time_cpu;
+    q_string_execution_time_cpu = QString::number(timeCpu);
+
+    ui->lineEditExecutionTimeCpu->setText(q_string_execution_time_cpu);
+}
+
+void MainWindow::displayExecutionTimeGpu(){
+    QString q_string_execution_time_gpu;
+    int timeGpu;
+
+    timeGpu = surf_time_gpu + matching_time_gpu + memory_upload_time_gpu + memory_download_time_gpu;
+    q_string_execution_time_gpu = QString::number(timeGpu);
+
+    ui->lineEditExecutionTimeGpu->setText(q_string_execution_time_gpu);
+}
+
+
 void MainWindow::initDefaultValues(){
-    min_hessian = 100;
+    min_hessian = ui->spinBoxMinHessian->value();
+    good_matches_threshold = ui->spinBoxGoodMatchesThreshold->value() / 100.0;
+
     resetMinAndMaxDistance();
 }
 
@@ -473,7 +532,21 @@ void MainWindow::resetMinAndMaxDistance(){
     max_dist = 0;
 }
 
+void MainWindow::on_spinBoxMinHessian_valueChanged(int arg1)
+{
+    min_hessian = arg1;
+}
+
+void MainWindow::on_spinBoxGoodMatchesThreshold_valueChanged(int arg1)
+{
+    good_matches_threshold = arg1 / 100.0;
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
+
+

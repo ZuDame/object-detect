@@ -55,6 +55,10 @@ private slots:
 
     void on_pushButtonSceneImage_clicked();
 
+    void on_spinBoxMinHessian_valueChanged(int arg1);
+
+    void on_spinBoxGoodMatchesThreshold_valueChanged(int arg1);
+
 private:
     /* ##################################
      * #                                #
@@ -80,6 +84,18 @@ private:
     //
     // a value between 400 and 800 works best.
     int min_hessian;
+
+    // threshold to determine good_matches
+    //
+    // use value between 0 and 1 representing
+    // 0.0 -> nothing will be marked as good match
+    // 1.0 -> everything will be marked as good match
+    //
+    // 0.2 -> 20% deference is acceptable
+    // 0.8 -> 80 % deference is acceptable
+    //
+    // value of 0.2 (20 / 100) is good
+    double good_matches_threshold;
 
     // image of the object and
     // image of the scene where we try to detect instance of the object
@@ -200,6 +216,17 @@ private:
 
     // draw processed image on QT form
     void drawProcessedImage();
+
+    // display updated information on QT
+    //
+    // data from last kernel (cpu or gpu) is being displayed
+    void displayInfo();
+
+    // update exectuion time on cpu
+    void displayExecutionTimeCpu();
+
+    // update execution time on gpu
+    void displayExecutionTimeGpu();
 
     // write and print log
     void writeLog(string);
