@@ -67,6 +67,9 @@ private:
      * ##################################
      */
 
+    // number of steps required to find matches, draw lines and localize
+    int steps_number;
+
     // path to soruce and scene images
     string img_source_path;
     string img_scene_path;
@@ -238,6 +241,11 @@ private:
 
     // initialise default values
     void initDefaultValues();
+
+    // update progressbar value
+    //
+    // accept an integer value tjat represent the number of recently finished step
+    void updateProgressbarValue(int);
 
     // reset min and max distances;
     void resetMinAndMaxDistance();

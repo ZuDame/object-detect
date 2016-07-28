@@ -95,6 +95,11 @@ void MainWindow::executeOnCpu(){
     // Step 2: describe points of interest
     //
     // Note that steps 1 and 2 can be done separate or together
+
+    // update progressbar that we are at step 1
+    // note that this update do not represent taht step 1 is finished as expected
+    updateProgressbarValue(1);
+
     timer.start();
 
     surf->detectAndCompute(img_source, cv::noArray(), keypoints_source, descriptor_source, false);
@@ -113,6 +118,9 @@ void MainWindow::executeOnCpu(){
     descriptor_scene_number_rows = descriptor_scene.rows;
     // end geting log informations
 
+    // update progressbar that we finished step 2
+    updateProgressbarValue(2);
+
     // Step 3:
     // run matcher
     timer.restart();
@@ -124,27 +132,35 @@ void MainWindow::executeOnCpu(){
     matches_number = matches.size();
     // end geting log information
 
+    // update progress bar that we finished step 3
+    updateProgressbarValue(3);
+
     // Step 4:
     // calculate max and min distances between keypoints
     // use this to find best matches later
     calculateMinAndMaxDistance();
+    updateProgressbarValue(4);
 
     // Step 5:
     // find best matches
     filterMatches();
+    updateProgressbarValue(5);
 
     // Step 6:
     // join sorce iamge and scene image into one large image
     // and draw lines between good matches
     drawKeyPointsAndMatches();
+    updateProgressbarValue(6);
 
     // Step 7:
     // localize the object
     localiseObject();
+    updateProgressbarValue(7);
 
     // Step 8:
     // display processed image
     drawProcessedImage();
+    updateProgressbarValue(8);
 
     // Step 9
     writeLog("cpu");
@@ -153,7 +169,6 @@ void MainWindow::executeOnCpu(){
     freeCpuMemory();
     resetMinAndMaxDistance();
 }
-
 
 void MainWindow::executeOnGpu(){
     // check if cuda capable devices are found
@@ -181,6 +196,11 @@ void MainWindow::executeOnGpu(){
     //
     // Note 2: surf_gpu(...) throw 'OpenCV Error: Gpu API call (out of memory) in allocate' error
     // when loading two 4k images
+
+    // update progressbar that we are at step 1
+    // note that this update do not represent taht step 1 is finished as expected
+    updateProgressbarValue(1);
+
     surf_gpu = cv::cuda::SURF_CUDA(min_hessian);
 
     timer.restart();
@@ -196,6 +216,9 @@ void MainWindow::executeOnGpu(){
 
     //cout << "Descripotr source on GPU: " << descriptor_source_gpu.size() << endl;
     //cout << "Descripotr scene on GPU: " << descriptor_scene_gpu.size() << endl;
+
+    // update progressbar that we finished step 2
+    updateProgressbarValue(2);
 
     // Step 3:
     // run matcher
@@ -234,27 +257,35 @@ void MainWindow::executeOnGpu(){
     descriptor_scene_number_rows = descriptor_scene.rows;
     // end geting log informations
 
+    // update progress bar that we finished step 3
+    updateProgressbarValue(3);
+
     // Step 4:
     // calculate max and min distances between keypoints
     // use this to find best matches later
     calculateMinAndMaxDistance();
+    updateProgressbarValue(4);
 
     // Step 5:
     // find best matches
     filterMatches();
+    updateProgressbarValue(5);
 
     // Step 6:
     // join sorce iamge and scene image into one large image
     // and draw lines between good matches
     drawKeyPointsAndMatches();
+    updateProgressbarValue(6);
 
     // Step 7:
     // localize the object
     localiseObject();
+    updateProgressbarValue(7);
 
     // Step 8:
     // display processed image
     drawProcessedImage();
+    updateProgressbarValue(8);
 
     // Step 9
     writeLog("gpu");
@@ -519,8 +550,9 @@ void MainWindow::displayExecutionTimeGpu(){
     ui->lineEditExecutionTimeGpu->setText(q_string_execution_time_gpu);
 }
 
-
 void MainWindow::initDefaultValues(){
+    steps_number = 8;
+
     min_hessian = ui->spinBoxMinHessian->value();
     good_matches_threshold = ui->spinBoxGoodMatchesThreshold->value() / 100.0;
 
@@ -540,6 +572,10 @@ void MainWindow::on_spinBoxMinHessian_valueChanged(int arg1)
 void MainWindow::on_spinBoxGoodMatchesThreshold_valueChanged(int arg1)
 {
     good_matches_threshold = arg1 / 100.0;
+}
+
+void MainWindow::updateProgressbarValue(int step){
+    ui->progressBar->setValue(100.0 / steps_number * step);
 }
 
 MainWindow::~MainWindow()
