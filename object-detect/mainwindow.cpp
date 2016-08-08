@@ -435,8 +435,8 @@ void MainWindow::writeLog(string type){
     }
     else{
         memory_total_time_gpu = memory_upload_time_gpu + memory_download_time_gpu;
-        ss << "Memory transfer host->device->host" << memory_total_time_gpu << endl;
-        ss << "Detect and describe keypoints: " << memory_upload_time_gpu + surf_time_gpu << "ms" << endl;
+        ss << "Memory transfer host->device->host: " << memory_total_time_gpu << "ms" << endl;
+        ss << "Detect and describe keypoints: " << surf_time_gpu << "ms" << endl;
         ss << "Match keypoints: " << matching_time_gpu << "ms" << endl;
     }
 
