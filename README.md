@@ -6,10 +6,12 @@
 - teach you about the potential speedup of using GPU instead of CPU for computation
 
 ##### Requirements:
-- Ubuntu 14.04
+- Ubuntu 14.04 or Windows 10
 - Cuda capable GPU (nVidia)
 - Proprietery nVidia drivers installed
 - cuda installed
-- OpenCV version 3.1 compiled with CUDA flag set to enabled
+- OpenCV version 3.1 compiled with CUDA flag set to enabled and extra modules (opencv_contrib) included
 - QT framework version 4 or above installed
-- QTCreator IDE
+- QTCreator (IDE)
+- Visual Studio 2013 (only for compiling OpenCV on Windows)
+- OS Environment paths must be modified to point to Cuda, OpenCV, and QT.
