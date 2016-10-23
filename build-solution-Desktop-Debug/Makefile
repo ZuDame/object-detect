@@ -31,79 +31,79 @@ SUBTARGETS    =  \
 
 sub-object-detect-qmake_all: sub-busines-logic-qmake_all FORCE
 	@test -d object-detect/ || mkdir -p object-detect/
-	cd object-detect/ && $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile
+	cd object-detect/ && $(QMAKE) /home/borche/bokiscout-object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile
 	cd object-detect/ && $(MAKE) -f Makefile qmake_all
 sub-object-detect: sub-busines-logic FORCE
 	@test -d object-detect/ || mkdir -p object-detect/
-	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile
+	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile
 sub-object-detect-make_first: sub-busines-logic-make_first FORCE
 	@test -d object-detect/ || mkdir -p object-detect/
-	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile 
+	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile 
 sub-object-detect-all: sub-busines-logic-all FORCE
 	@test -d object-detect/ || mkdir -p object-detect/
-	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile all
+	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile all
 sub-object-detect-clean: sub-busines-logic-clean FORCE
 	@test -d object-detect/ || mkdir -p object-detect/
-	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile clean
+	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile clean
 sub-object-detect-distclean: sub-busines-logic-distclean FORCE
 	@test -d object-detect/ || mkdir -p object-detect/
-	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile distclean
+	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile distclean
 sub-object-detect-install_subtargets: sub-busines-logic-install_subtargets FORCE
 	@test -d object-detect/ || mkdir -p object-detect/
-	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile install
+	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile install
 sub-object-detect-uninstall_subtargets: sub-busines-logic-uninstall_subtargets FORCE
 	@test -d object-detect/ || mkdir -p object-detect/
-	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile uninstall
+	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile uninstall
 sub-unit-test-qmake_all:  FORCE
 	@test -d unit-test/ || mkdir -p unit-test/
-	cd unit-test/ && $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile
+	cd unit-test/ && $(QMAKE) /home/borche/bokiscout-object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile
 	cd unit-test/ && $(MAKE) -f Makefile qmake_all
 sub-unit-test: FORCE
 	@test -d unit-test/ || mkdir -p unit-test/
-	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile
+	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile
 sub-unit-test-make_first: FORCE
 	@test -d unit-test/ || mkdir -p unit-test/
-	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile 
+	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile 
 sub-unit-test-all: FORCE
 	@test -d unit-test/ || mkdir -p unit-test/
-	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile all
+	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile all
 sub-unit-test-clean: FORCE
 	@test -d unit-test/ || mkdir -p unit-test/
-	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile clean
+	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile clean
 sub-unit-test-distclean: FORCE
 	@test -d unit-test/ || mkdir -p unit-test/
-	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile distclean
+	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile distclean
 sub-unit-test-install_subtargets: FORCE
 	@test -d unit-test/ || mkdir -p unit-test/
-	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile install
+	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile install
 sub-unit-test-uninstall_subtargets: FORCE
 	@test -d unit-test/ || mkdir -p unit-test/
-	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile uninstall
+	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile uninstall
 sub-busines-logic-qmake_all:  FORCE
 	@test -d busines-logic/ || mkdir -p busines-logic/
-	cd busines-logic/ && $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile
+	cd busines-logic/ && $(QMAKE) /home/borche/bokiscout-object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile
 	cd busines-logic/ && $(MAKE) -f Makefile qmake_all
 sub-busines-logic: FORCE
 	@test -d busines-logic/ || mkdir -p busines-logic/
-	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile
+	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile
 sub-busines-logic-make_first: FORCE
 	@test -d busines-logic/ || mkdir -p busines-logic/
-	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile 
+	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile 
 sub-busines-logic-all: FORCE
 	@test -d busines-logic/ || mkdir -p busines-logic/
-	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile all
+	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile all
 sub-busines-logic-clean: FORCE
 	@test -d busines-logic/ || mkdir -p busines-logic/
-	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile clean
+	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile clean
 sub-busines-logic-distclean: FORCE
 	@test -d busines-logic/ || mkdir -p busines-logic/
-	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile distclean
+	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile distclean
 sub-busines-logic-install_subtargets: FORCE
 	@test -d busines-logic/ || mkdir -p busines-logic/
-	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile install
+	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile install
 sub-busines-logic-uninstall_subtargets: FORCE
 	@test -d busines-logic/ || mkdir -p busines-logic/
-	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile uninstall
+	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile uninstall
 
 Makefile: ../solution/solution.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
@@ -231,13 +231,13 @@ uninstall_subtargets: sub-object-detect-uninstall_subtargets sub-unit-test-unins
 
 sub-object-detect-check: sub-busines-logic-check
 	@test -d object-detect/ || mkdir -p object-detect/
-	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile check
+	cd object-detect/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/object-detect/object-detect.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile check
 sub-unit-test-check:
 	@test -d unit-test/ || mkdir -p unit-test/
-	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile check
+	cd unit-test/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/unit-test/unit-test.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile check
 sub-busines-logic-check:
 	@test -d busines-logic/ || mkdir -p busines-logic/
-	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/Documents/MEGA/QtCreatorWorkspace/object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile check
+	cd busines-logic/ && ( test -e Makefile || $(QMAKE) /home/borche/bokiscout-object-detect/solution/busines-logic/busines-logic.pro -spec linux-g++-64 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile ) && $(MAKE) -f Makefile check
 check: sub-object-detect-check sub-unit-test-check sub-busines-logic-check
 install: install_subtargets  FORCE
 
