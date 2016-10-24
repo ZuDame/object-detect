@@ -12,7 +12,7 @@ void UnitTest::surfLogic_initDefaultValues(){
     // after execution of initDefaultValues()
     // it is expected all variables to have default values
 
-    // 3 test cases
+    // 2 test cases
     // test 1: initialise variables on first start of the program.
     // test 2: variables are already initialised with non default values and
     //         we reset them do default one
@@ -26,7 +26,13 @@ void UnitTest::surfLogic_initDefaultValues(){
     QVERIFY(model.min_hessian != 100);
     QVERIFY(model.good_matches_threshold != 0.2);
 
-    // test 1
+    QVERIFY(model.upright == false);
+    QVERIFY(model.extended == false);
+
+    QVERIFY(model.num_octaves != 4);
+    QVERIFY(model.num_of_layers_per_octave != 2);
+
+    // test case 1:
     //
     // after execution variables should have expected values
     model.initDefaultValues();
@@ -35,7 +41,14 @@ void UnitTest::surfLogic_initDefaultValues(){
     QCOMPARE(model.min_hessian, 100);
     QCOMPARE(model.good_matches_threshold, 0.2);
 
-    // test 2
+    QCOMPARE(model.upright, false);
+    QCOMPARE(model.extended, false);
+
+    QCOMPARE(model.num_octaves, 4);
+    QCOMPARE(model.num_of_layers_per_octave, 2);
+
+
+    // test case 2:
     //
     // variables have non default values
     // after execution variables should have expected values
@@ -43,25 +56,38 @@ void UnitTest::surfLogic_initDefaultValues(){
     model.min_hessian = -3;
     model.good_matches_threshold = 14.0;
 
+    model.upright = true;
+    model.extended = true;
+
+    model.num_octaves = 5;
+    model.num_of_layers_per_octave = 5;
+
     model.initDefaultValues();
 
     QCOMPARE(model.steps_number, 8);
     QCOMPARE(model.min_hessian, 100);
     QCOMPARE(model.good_matches_threshold, 0.2);
+
+    QCOMPARE(model.upright, false);
+    QCOMPARE(model.extended, false);
+
+    QCOMPARE(model.num_octaves, 4);
+    QCOMPARE(model.num_of_layers_per_octave, 2);
 }
 
 void UnitTest::surfLogic_resetMinAndMaxDistance(){
-    // after execution variables should have expected values
-
-    // three tests provided:
+    // 2 testt cases:
     //
-    // test 1: variables are uninitialised (initialise and ste to default values)
-    // test 2: variables have random values (after execution they have expected values)
+    // test case 1:
+    // variables are uninitialised (initialise and set to default values)
+    //
+    // test case 2:
+    // variables have random values (after execution they have expected values)
 
     // setup
     SurfLogic model;
 
-    // test on first initializatin
+    // test case 1:
 //    QVERIFY(model.min_dist == 100.0);
 //    QVERIFY(model.max_dist != 0.0);
 
@@ -69,7 +95,7 @@ void UnitTest::surfLogic_resetMinAndMaxDistance(){
     QCOMPARE(model.min_dist, 100.0);
     QCOMPARE(model.max_dist, 0.0);
 
-    // test with random values
+    // test case 2:
     model.min_dist = -650;
     model.max_dist = -650;
 
@@ -86,12 +112,14 @@ void UnitTest::surfLogic_loadImages(){
     // 4 posible combinations
     // 1- source = good || scene == good || return 1
     // 2- source = good || scene == bad  || return -1
-    // 3- source = bad  || scene == bad  || return -1
+    // 3- source = bad  || scene == good || return -1
     // 4- source = bad  || scene == bad  || return -1
 
-    // test each iamge atleast twice. Once when good once when bad
+    // test criterion:
     //
-    // test metodh once to return 1, once to return -1
+    // Predicate Coverage:
+    // at least once loadImages() == true
+    // at least once loadImages() == false
 
     //setup
     SurfLogic model;
@@ -101,10 +129,10 @@ void UnitTest::surfLogic_loadImages(){
     // test case 1:
     //
     // source = good || scene = bad || return -1
-    model.img_source_path = "/home/borche/Documents/git/object-detect/images/books-opencv/box.png";
+    model.img_source_path = "/home/borche/bokiscout-object-detect/images/books-opencv/box.png";
     model.img_scene_path = "/";
 
-    expected = -1;
+    expected = -2;
     actual = model.loadImages();
 
     QVERIFY(expected == actual);
@@ -113,7 +141,7 @@ void UnitTest::surfLogic_loadImages(){
     //
     // source = bad || scene = good || return -1
     model.img_source_path = "/";
-    model.img_scene_path = "/home/borche/Documents/git/object-detect/images/books-opencv/box.png";
+    model.img_scene_path = "/home/borche/bokiscout-object-detect/images/books-opencv/box.png";
 
     expected = -1;
     actual = model.loadImages();
@@ -123,13 +151,30 @@ void UnitTest::surfLogic_loadImages(){
     // test case 3:
     //
     // source = good || scene = good || return 1
-    model.img_source_path = "/home/borche/Documents/git/object-detect/images/books-opencv/box.png";
-    model.img_scene_path = "/home/borche/Documents/git/object-detect/images/books-opencv/box.png";
+    model.img_source_path = "/home/borche/bokiscout-object-detect/images/books-opencv/box.png";
+    model.img_scene_path  = "/home/borche/bokiscout-object-detect/images/books-opencv/box.png";
 
     expected = 1;
     actual = model.loadImages();
 
     QVERIFY(expected == actual);
+}
+
+void UnitTest::surfLogic_loadImagesMutantTest(){
+    // test possible mutations
+
+    // setup
+    SurfLogic model;
+    int data[] = {10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255};
+    model.img_source = cv::Mat(4,4, CV_8U, data);
+    model.img_scene = cv::Mat(4,4, CV_8U, data);
+
+    // test case 1:
+    //
+    // img_source = cv::imread(img_source_path, cv::IMREAD_GRAYSCALE);
+    //
+    // mutation at: img_source "=" ...
+    model.img_source_path = "/home/borche/bokiscout-object-detect/images/books-opencv/box.png";
 }
 
 void UnitTest::surfLogic_createSurfCpu(){
@@ -142,35 +187,100 @@ void UnitTest::surfLogic_createSurfCpu(){
     // setup
     SurfLogic model;
 
+    model.min_hessian = 100;
+    model.upright = false;
+    model.extended = false;
+    model.num_octaves = 4;
+    model.num_of_layers_per_octave = 2;
+
     // test that pointer is not initialised when program start
     // intialise it
     // then check if it is correctly initialised
-    QVERIFY(model.surf.empty() == true);
+    QCOMPARE(model.surf.empty(), true);
 
-    model.min_hessian = 100;
     model.createSurfCpu();
 
-    QVERIFY(model.surf.empty() == false);
-    QVERIFY(model.surf->getHessianThreshold() == 100);
+    QCOMPARE(model.surf.empty(), false);
+    QCOMPARE(model.surf->getHessianThreshold(), 100.00);
+    QCOMPARE(model.surf->getUpright(), false);
+    QCOMPARE(model.surf->getExtended(), false);
+    QCOMPARE(model.surf->getNOctaves(), 4);
+    QCOMPARE(model.surf->getNOctaveLayers(), 2);
+}
+
+void UnitTest::surfLogic_createSurfCpuMutationTest(){
+    // one posible mutation:
+    //
+    // mutation 1:
+    // each variable to be exchanged by some other of same type
+    //
+    // other variable might have deferenr os same value as expected
+
+    // Setup
+    SurfLogic model;
+    model.min_hessian = 150;
+    model.upright = false;
+    model.extended = false;
+    model.num_octaves = 4;
+    model.num_of_layers_per_octave = 2;
+
+    int expected;
+    int actual;
+
+    // test case 1:
+    model.createSurfCpu();
+
+    QCOMPARE(model.surf.empty(), false);
+    QCOMPARE(model.surf->getHessianThreshold(), model.min_hessian * 1.0);
+    QCOMPARE(model.surf->getUpright(), model.upright);
+    QCOMPARE(model.surf->getExtended(), model.extended);
+    QCOMPARE(model.surf->getNOctaves(), model.num_octaves);
+    QCOMPARE(model.surf->getNOctaveLayers(), model.num_of_layers_per_octave);
 }
 
 void UnitTest::surfLogic_createSurfGpu(){
     // SURF on GPU is not declared as pointer as on CPU
-    // it is plain method thet accepts min_hessian argument
+    // it is plain method thet accepts few arguments
     //
     // test if SURF is created with expected values passed via parameters
 
     // setup
     SurfLogic model;
-    int expected = 100;
-    int actual;
-    model.min_hessian = expected;
+
+    model.min_hessian = 100;
+    model.upright = false;
+    model.extended = false;
+    model.num_octaves = 4;
+    model.num_of_layers_per_octave = 2;
 
     // test
     model.createSurfGpu();
 
+    QCOMPARE(model.surf_gpu.hessianThreshold, model.min_hessian * 1.0);
+    QCOMPARE(model.surf_gpu.upright, model.upright);
+    QCOMPARE(model.surf_gpu.extended, model.extended);
+    QCOMPARE(model.surf_gpu.nOctaves, model.num_octaves);
+    QCOMPARE(model.surf_gpu.nOctaveLayers, model.num_of_layers_per_octave);
+}
+
+void UnitTest::surfLogic_createSurfGpuMutationTest(){
+    // only one mutation posible
+    //
+    // if other variable is used instad of min_hessian
+
+    // Setup
+    SurfLogic model;
+    model.min_hessian = 250;
+    int expected;
+    int actual;
+
+    // test case 1:
+    model.createSurfGpu();
+
+    expected = 250;
     actual = model.surf_gpu.hessianThreshold;
-    QVERIFY(expected == actual);
+
+    QCOMPARE(actual, expected);
 }
 
 void UnitTest::surfLogic_detectAndDescribeCPU(){
@@ -215,7 +325,7 @@ void UnitTest::surfLogic_detectAndDescribeCPU(){
     expected = -1;
     actual = model.detectAndDescribeCPU();
 
-    QCOMPARE(expected, actual);
+    QCOMPARE(actual, expected);
 
     // test 3
     //
@@ -227,6 +337,72 @@ void UnitTest::surfLogic_detectAndDescribeCPU(){
     actual = model.detectAndDescribeCPU();
 
     QCOMPARE(expected, actual);
+}
+
+void UnitTest::surfLogic_detectAndDescribeCPUMutationTest(){
+    // two possible mutations
+    //
+    // mutation 1:
+    // img_scene is replaced with image_source
+    //
+    // mutation 2:
+    // image_source is replaced with image_scene
+
+    // setup
+    SurfLogic model;
+    int expected;
+    int actual;
+
+    bool expected_boool;
+    bool actual_bool;
+
+    model.min_hessian = 100;
+    int data_source[] = {10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255};
+    int data_scene[] = {20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10,
+                        20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10,
+                        20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10,
+                        20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10,
+                        20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10,
+                        20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10,
+                       20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10};
+    model.createSurfCpu();
+
+    // test mutation 1:
+    //
+    // if(img_source.empty() || img_scene.empty())
+    model.img_source = cv::Mat(4,4, CV_8U, data_source);
+    model.img_scene = cv::Mat();
+
+    expected = -1;
+    actual = model.detectAndDescribeGPU();
+
+    QCOMPARE(actual, expected);
+
+    // test mutation 2:
+    //
+    // if(img_source.empty() || img_scene.empty()){
+    model.img_source = cv::Mat();
+    model.img_scene = cv::Mat(4,4, CV_8U, data_scene);
+
+    expected = -1;
+    actual = model.detectAndDescribeCPU();
+
+    QCOMPARE(actual, expected);
+
+//    // test mutation 3:
+//    //
+//    // surf->detectAndCompute(img_source, cv::noArray(), keypoints_source, descriptor_source, false);
+//    model.img_source = cv::Mat(5,5, CV_8U, data_source);
+//    model.img_scene = cv::Mat(7,7, CV_8U, data_scene);
+
+//    model.detectAndDescribeCPU();
+
+//    actual_bool = (model.keypoints_source.size() == model.keypoints_scene.size());
+//    QVERIFY(actual_bool == false);
 }
 
 void UnitTest::surfLogic_detectAndDescribeGPU(){
@@ -248,7 +424,7 @@ void UnitTest::surfLogic_detectAndDescribeGPU(){
     model.min_hessian = 100;
     int data[] = {10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255};
 
-    // test 1:
+    // test case 1:
     //
     // source = bad  || scene = good || return = -1
     model.img_source_gpu = cv::cuda::GpuMat();
@@ -259,7 +435,7 @@ void UnitTest::surfLogic_detectAndDescribeGPU(){
 
     QVERIFY(expected == actual);
 
-    // test 2:
+    // test case 2:
     //
     // source = good || scene = bad  || return = -1
     model.img_source_gpu = cv::cuda::GpuMat(4,4, CV_8U, data);
@@ -269,6 +445,110 @@ void UnitTest::surfLogic_detectAndDescribeGPU(){
     actual = model.detectAndDescribeGPU();
 
     QVERIFY(expected == actual);
+
+//    // test case 3:
+//    //
+//    // source = good || scene = bad || return = 1
+//    int data_source[] = {10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255};
+//    int data_scene[] = {10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+//                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255};
+
+//    model.img_source_gpu = cv::cuda::GpuMat(80,150, CV_8U, data_source);
+//    model.img_scene_gpu = cv::cuda::GpuMat(150,200, CV_8U, data_scene);
+
+//    expected = 1;
+//    actual = model.detectAndDescribeGPU();
+
+//    QCOMPARE(actual, expected);
+}
+
+void UnitTest::surfLogic_detectAndDescribeGPUMutation(){
+    // two possible mutations
+    //
+    // mutation 1:
+    // img_scene is replaced with image_source
+    //
+    // mutation 2:
+    // image_source is replaced with image_scene
+
+    // setup
+    SurfLogic model;
+    int expected;
+    int actual;
+
+    model.min_hessian = 100;
+    int data_source[] = {10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255,
+                        10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255, 10, 2, 5, 255};
+    int data_scene[] = {20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10,
+                        20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10,
+                        20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10,
+                        20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10,
+                        20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10,
+                        20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10,
+                       20, 20, 50, 10, 255, 2, 255, 5, 10, 5, 2, 255, 255, 5, 2, 10};
+    model.createSurfGpu();
+
+    // test mutation 1
+    //
+    // if(img_source_gpu.empty() || img_scene_gpu.empty()){}
+    model.img_source = cv::Mat(4,4, CV_8U, data_source);
+    model.img_scene = cv::Mat();
+
+    expected = -1;
+    actual = model.detectAndDescribeGPU();
+
+    QCOMPARE(actual, expected);
+
+    // test mutation 2
+    //
+    // if(img_source_gpu.empty() || img_scene_gpu.empty()){}
+    model.img_source = cv::Mat();
+    model.img_scene = cv::Mat(4,4, CV_8U, data_source);
+
+    expected = -1;
+    actual = model.detectAndDescribeGPU();
+
+    QCOMPARE(actual, expected);
 }
 
 void UnitTest::surfLogic_runMatcherCPU(){
@@ -290,7 +570,6 @@ void UnitTest::surfLogic_runMatcherCPU(){
                   55, 60, 70, 75, 80,
                   90, 100, 150, 250, 200,
                   95, 105, 155, 255, 205};
-
 
     // test 1:
     //
@@ -324,6 +603,50 @@ void UnitTest::surfLogic_runMatcherCPU(){
     actual = model.runMatcherCPU();
 
     QVERIFY(expected == actual);
+}
+
+void UnitTest::surfLogic_runMatcherCPUMutation(){
+    SurfLogic model;
+    int actual;
+    int expected;
+    int data[] = {5, 10, 15, 20, 25,
+                  30, 35, 40, 45, 50,
+                  55, 60, 70, 75, 80,
+                  90, 100, 150, 250, 200,
+                  95, 105, 155, 255, 205};
+
+
+    // test mutation 1
+    //
+    // if source is tested twice -> cought
+    // if scene is teted twise -> cought
+    // if || is changed with && -> cought
+    model.descriptor_source = cv::Mat(5, 5, CV_8U, data);
+    model.descriptor_scene = cv::Mat();
+
+    actual = model.runMatcherCPU();
+    expected = -1;
+    QCOMPARE(actual, expected);
+
+//    // test mutation 2
+//    // if soruce is swapped with scene or wise wersa
+//    model.img_source_path = "/home/borche/bokiscout-object-detect/images/books-opencv/box.png";
+//    model.img_scene_path  = "/home/borche/bokiscout-object-detect/images/books-opencv/box_in_scene.png";
+
+//    model.loadImages();
+//    model.createSurfCpu();
+//    model.detectAndDescribeCPU();
+
+//    model.runMatcherCPU();
+
+//    int matches = model.matches.size(); // good
+//    int source_size = model.keypoints_source_number;
+//    int scene_size = model.keypoints_scene_number;
+
+//    bool expected_bool = false;
+//    bool actual_bool = (matches == source_size && matches);
+
+//    QCOMPARE(actual_bool, expected_bool);
 }
 
 void UnitTest::surfLogic_runMatcherGPU(){
@@ -368,6 +691,61 @@ void UnitTest::surfLogic_runMatcherGPU(){
     actual = model.runMatcherGPU();
 
     QVERIFY2(expected == actual, qPrintable(model.error_message));
+}
+
+void UnitTest::surfLogic_runMatcherGPUMutation(){
+    // setup
+
+    SurfLogic model;
+    int actual;
+    int expected;
+    int data[] = {5, 10, 15, 20, 25,
+                  30, 35, 40, 45, 50,
+                  55, 60, 70, 75, 80,
+                  90, 100, 150, 250, 200,
+                  95, 105, 155, 255, 205};
+
+    model.createMatcherGpu();
+
+    // test mutant 1:
+    // || is changed to &&
+    model.descriptor_source_gpu = cv::cuda::GpuMat(5, 5, CV_8U, data);
+    model.descriptor_scene_gpu = cv::cuda::GpuMat();
+
+    actual = model.runMatcherGPU();
+    expected = -1;
+
+    QCOMPARE(actual, expected);
+
+    // test mutant 1:
+    // || is changed to &&
+    model.descriptor_source_gpu = cv::cuda::GpuMat();
+    model.descriptor_scene_gpu = cv::cuda::GpuMat(5, 5, CV_8U, data);
+
+    actual = model.runMatcherGPU();
+    expected = -1;
+
+    QCOMPARE(actual, expected);
+
+//    // test mutant 1:
+//    // || is changed to &&
+//    model.descriptor_source_gpu = cv::cuda::GpuMat(5, 5, CV_8U, data);
+//    model.descriptor_scene_gpu = cv::cuda::GpuMat(5, 5, CV_8U, data);
+
+//    actual = model.runMatcherGPU();
+//    expected = 1;
+
+//    QCOMPARE(actual, expected);
+
+    // test mutant 1:
+    // || is changed to &&
+    model.descriptor_source_gpu = cv::cuda::GpuMat();
+    model.descriptor_scene_gpu = cv::cuda::GpuMat();
+
+    actual = model.runMatcherGPU();
+    expected = -1;
+
+    QCOMPARE(actual, expected);
 }
 
 void UnitTest::surfLogic_calculateMinAndMaxDistance(){
@@ -435,7 +813,7 @@ void UnitTest::surfLogic_calculateMinAndMaxDistance(){
     vectormatches.push_back(second);
     model.matches = vectormatches;
 
-    expected = -1;
+    expected = -2;
     actual = model.calculateMinAndMaxDistance();
 
     QVERIFY2(expected == actual, qPrintable(model.error_message));
@@ -469,6 +847,111 @@ void UnitTest::surfLogic_calculateMinAndMaxDistance(){
     // verify that min and max ar properly found
     QVERIFY2(expected_min == actual_min, "calculateMinAndMaxDistance() failed. Expected min_dist != actual min_dist");
     QVERIFY2(expected_max == actual_max, "calculateMinAndMaxDistance() failed. Expected min_dist != actual min_dist");
+}
+
+void UnitTest::surfLogic_calculateMinAndMaxDistanceMutation(){
+    // mutation 1:
+    //
+    // if(descriptor_source.rows <= 0){}
+
+    // mutation 2:
+    //
+    // if(descriptor_source.rows != matches.size()){}
+
+    // setup
+    SurfLogic model;
+    int expected;
+    int actual;
+    int data[] = {5, 10, 15, 20, 25,
+                  30, 35, 40, 45, 50,
+                  55, 60, 70, 75, 80,
+                  90, 100, 150, 250, 200,
+                  95, 105, 155, 255, 205};
+
+    cv::DMatch first = cv::DMatch(1,1,0.1);
+    cv::DMatch second = cv::DMatch(1,1,0.2);
+    cv::DMatch third = cv::DMatch(1,1,0.4);
+    cv::DMatch fourth = cv::DMatch(1,1,0.8);
+    cv::DMatch fifth = cv::DMatch(1,1,0.6);
+
+    vector<cv::DMatch> vectormatches;
+
+    // test  mutation 1
+    //
+    // <= is changed with <
+    model.descriptor_source = cv::Mat(0,0, CV_8U, data);
+
+    actual = model.calculateMinAndMaxDistance();
+    expected = -1;
+
+    QCOMPARE(actual, expected);
+
+    // test mutation 1:
+    //
+    // <= is changed with ==
+    model.descriptor_source = cv::Mat(0,0, CV_8U, data);
+
+    actual = model.calculateMinAndMaxDistance();
+    expected = -1;
+
+    QCOMPARE(actual, expected);
+
+    // test mutation 1:
+    //
+    // <= is changed with >=
+    model.descriptor_source = cv::Mat(5,5, CV_8U, data);
+
+    vectormatches.clear();
+    vectormatches.push_back(first);
+    vectormatches.push_back(second);
+    vectormatches.push_back(third);
+    vectormatches.push_back(fourth);
+    vectormatches.push_back(fifth);
+
+    model.matches = vectormatches;
+
+    actual = model.calculateMinAndMaxDistance();
+    expected = 1;
+
+    QCOMPARE(actual, expected);
+
+    // test mutation 2:
+    //
+    // != is changed with ==
+    model.descriptor_source = cv::Mat(5,5, CV_8U, data);
+
+    vectormatches.clear();
+    vectormatches.push_back(first);
+    vectormatches.push_back(second);
+    vectormatches.push_back(third);
+    vectormatches.push_back(fourth);
+    vectormatches.push_back(fifth);
+
+    model.matches = vectormatches;
+
+    actual = model.calculateMinAndMaxDistance();
+    expected = 1;
+
+    QCOMPARE(actual, expected);
+
+    // test mutation 2:
+    //
+    // != is changed with <=
+    model.descriptor_source = cv::Mat(5,5, CV_8U, data);
+
+    vectormatches.clear();
+    vectormatches.push_back(first);
+    vectormatches.push_back(second);
+    vectormatches.push_back(third);
+    vectormatches.push_back(fourth);
+    vectormatches.push_back(fifth);
+
+    model.matches = vectormatches;
+
+    actual = model.calculateMinAndMaxDistance();
+    expected = 1;
+
+    QCOMPARE(actual, expected);
 }
 
 void UnitTest::surfLogic_filterMatches(){

@@ -52,6 +52,24 @@ public:
     // a value between 400 and 800 works best.
     int min_hessian;
 
+    //The number of a gaussian pyramid octaves that the detector uses.
+    // It is set to 4 by default.
+    // If you want to get very large features, use the larger value.
+    // If you want just small features, decrease it.
+    int num_octaves;
+
+    // The number of images within each octave of a gaussian pyramid.
+    // It is set to 2 by default.
+    int num_of_layers_per_octave;
+
+    // false means that the basic descriptors (64 elements each) shall be computed
+    // trye means that the extended descriptors (128 elements each) shall be computed
+    bool extended;
+
+    // false means that detector computes orientation of each feature.
+    // true means that the orientation is not computed (which is much, much faster).
+    bool upright;
+
     // threshold to determine good_matches
     //
     // use value between 0 and 1 representing

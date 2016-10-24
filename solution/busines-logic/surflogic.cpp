@@ -30,6 +30,12 @@ void SurfLogic::initDefaultValues(){
     min_hessian = 100;
     good_matches_threshold = 0.2;    // 0.2 = 20 / 100.0;
 
+    upright = false;
+    extended = false;
+
+    num_octaves = 4;
+    num_of_layers_per_octave = 2;
+
     resetMinAndMaxDistance();
 }
 
@@ -52,7 +58,7 @@ int SurfLogic::loadImages(){
     if(img_scene.empty()){
         img_load_error_msg = "Right image (scene) missing";
         cout << img_load_error_msg << endl;
-        return -1;
+        return -2;
     }
 
     return 1;
@@ -60,12 +66,12 @@ int SurfLogic::loadImages(){
 
 void SurfLogic::createSurfCpu(){
     // create feature detecetor and feture descriptor
-    surf = cv::xfeatures2d::SURF::create(min_hessian);
+    surf = cv::xfeatures2d::SURF::create(min_hessian, num_octaves, num_of_layers_per_octave, extended, upright);
 }
 
 void SurfLogic::createSurfGpu(){
     // create feature detecetor and feture descriptor
-    surf_gpu = cv::cuda::SURF_CUDA(min_hessian);
+    surf_gpu = cv::cuda::SURF_CUDA(min_hessian, num_octaves, num_of_layers_per_octave, extended, 0.01f, upright);
 }
 
 int SurfLogic::detectAndDescribeCPU(){
@@ -83,7 +89,7 @@ int SurfLogic::detectAndDescribeCPU(){
     }
     catch(...){
         error_message = QString("failed execution of surf->detectAndCompute() on CPU");
-        return -1;
+        return -2;
     }
 
     // start geting log infomration
@@ -114,7 +120,7 @@ int SurfLogic::detectAndDescribeGPU(){
     }
     catch(...){
         error_message = "detectAndDescribeGPU() failed. Can't execute GPU kernel";
-        return -1;
+        return -2;
     }
 
     // get log informations
@@ -138,7 +144,7 @@ int SurfLogic::runMatcherCPU(){
     }
     catch(...){
         error_message = "matcher_cpu.match() failed";
-        return -1;
+        return -2;
     }
 
     // start geting log information
@@ -163,7 +169,7 @@ int SurfLogic::runMatcherGPU(){
     }
     catch(...){
         error_message = "matcher_gpu->match() failed.";
-        return -1;
+        return -2;
     }
 
     // get log informations
@@ -179,15 +185,27 @@ int SurfLogic::runMatcherGPU(){
     // Note 2: Be carefull to properly calcucalate time spend on memory trinsfer
     //          it might be overriden in one or other method
     timer.restart();
-    surf_gpu.downloadKeypoints(keypoints_source_gpu, keypoints_source);
-    surf_gpu.downloadKeypoints(keypoints_scene_gpu, keypoints_scene);
+    try{
+        surf_gpu.downloadKeypoints(keypoints_source_gpu, keypoints_source);
+        surf_gpu.downloadKeypoints(keypoints_scene_gpu, keypoints_scene);
+    }
+    catch(...){
+        error_message = "downloadKeypoints od gpu failed";
+        return -3;
+    }
 
     //surf_gpu.downloadDescriptors(descriptor_source_gpu, descriptor_source_downloaded);
     //surf_gpu.downloadDescriptors(descriptor_scene_gpu, descriptor_scene_downloaded);
 
     // other way to download descriptors from device to host
-    descriptor_source = cv::Mat(descriptor_source_gpu);
-    descriptor_scene = cv::Mat(descriptor_scene_gpu);
+    try{
+        descriptor_source = cv::Mat(descriptor_source_gpu);
+        descriptor_scene = cv::Mat(descriptor_scene_gpu);
+    }
+    catch(...){
+        error_message = "downloading descriptors from gpu failed";
+        return -4;
+    }
 
     // start geting log informations
     memory_download_time_gpu = timer.elapsed();
@@ -212,7 +230,7 @@ int SurfLogic::calculateMinAndMaxDistance(){
     }
     if(descriptor_source.rows != matches.size()){
         error_message = "calculateMinAndMaxDistance() failed. descriptor_source.rows != matches.size()";
-        return -1;
+        return -2;
     }
 
     for (int i = 0; i < descriptor_source.rows; i++)
