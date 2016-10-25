@@ -27,6 +27,10 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
+    // method that will pass parameters for the kernel
+    // from the UI component to the library
+    void setSurfParameters();
+
     // CPU version
     void executeOnCpu();
 

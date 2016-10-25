@@ -79,6 +79,7 @@ void MainWindow::on_pushButtonCpu_clicked()
 
     if(result > 0){
         //model.executeOnCpu();
+        setSurfParameters();
         executeOnCpu();
     }
     else{
@@ -94,6 +95,7 @@ void MainWindow::on_pushButtonGpu_clicked()
     int result = model.loadImages();
 
     if(result > 0){
+        setSurfParameters();
         executeOnGpu();
     }
     else{
@@ -383,3 +385,11 @@ void MainWindow::displayErrorMsg(QString error){
     msg.exec();
 }
 
+void MainWindow::setSurfParameters(){
+    model.setSurfParameters(ui->spinBoxMinHessian->value(),
+                            ui->spinBoxOctaves->value(),
+                            ui->spinBoxOctaveLayers->value(),
+                            ui->checkBoxExtended->checkState(),
+                            ui->checkBoxUpright->checkState(),
+                            ui->spinBoxGoodMatchesThreshold->value());
+}

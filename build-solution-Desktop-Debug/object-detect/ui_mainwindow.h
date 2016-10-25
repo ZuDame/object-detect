@@ -63,15 +63,10 @@ public:
     QLabel *label_3;
     QLabel *label_2;
     QCheckBox *checkBoxExtended;
-    QSpinBox *spinBox;
+    QSpinBox *spinBoxOctaveLayers;
     QSpinBox *spinBoxOctaves;
     QLabel *label_6;
     QCheckBox *checkBoxUpright;
-    QGroupBox *groupBox_3;
-    QGridLayout *gridLayout_3;
-    QCheckBox *checkBoxDrawKeyPoints;
-    QCheckBox *checkBoxDrawMatches;
-    QCheckBox *checkBoxLocaliseObject;
     QGroupBox *groupBox_4;
     QGridLayout *gridLayout_11;
     QPushButton *pushButtonSourceImage;
@@ -128,7 +123,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 332, 698));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 332, 581));
         gridLayout_5 = new QGridLayout(scrollAreaWidgetContents);
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -200,7 +195,7 @@ public:
         gridLayout_10->addWidget(labelKeyPoints, 1, 0, 1, 1);
 
 
-        gridLayout->addWidget(groupBox, 4, 0, 1, 1);
+        gridLayout->addWidget(groupBox, 3, 0, 1, 1);
 
         groupBox_2 = new QGroupBox(frame);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
@@ -255,12 +250,12 @@ public:
 
         gridLayout_2->addWidget(checkBoxExtended, 3, 2, 1, 1);
 
-        spinBox = new QSpinBox(groupBox_2);
-        spinBox->setObjectName(QStringLiteral("spinBox"));
-        spinBox->setMinimum(1);
-        spinBox->setValue(2);
+        spinBoxOctaveLayers = new QSpinBox(groupBox_2);
+        spinBoxOctaveLayers->setObjectName(QStringLiteral("spinBoxOctaveLayers"));
+        spinBoxOctaveLayers->setMinimum(1);
+        spinBoxOctaveLayers->setValue(2);
 
-        gridLayout_2->addWidget(spinBox, 2, 2, 1, 1);
+        gridLayout_2->addWidget(spinBoxOctaveLayers, 2, 2, 1, 1);
 
         spinBoxOctaves = new QSpinBox(groupBox_2);
         spinBoxOctaves->setObjectName(QStringLiteral("spinBoxOctaves"));
@@ -280,31 +275,7 @@ public:
         gridLayout_2->addWidget(checkBoxUpright, 4, 2, 1, 1);
 
 
-        gridLayout->addWidget(groupBox_2, 2, 0, 1, 1);
-
-        groupBox_3 = new QGroupBox(frame);
-        groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
-        gridLayout_3 = new QGridLayout(groupBox_3);
-        gridLayout_3->setSpacing(6);
-        gridLayout_3->setContentsMargins(11, 11, 11, 11);
-        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
-        checkBoxDrawKeyPoints = new QCheckBox(groupBox_3);
-        checkBoxDrawKeyPoints->setObjectName(QStringLiteral("checkBoxDrawKeyPoints"));
-
-        gridLayout_3->addWidget(checkBoxDrawKeyPoints, 0, 0, 1, 1);
-
-        checkBoxDrawMatches = new QCheckBox(groupBox_3);
-        checkBoxDrawMatches->setObjectName(QStringLiteral("checkBoxDrawMatches"));
-
-        gridLayout_3->addWidget(checkBoxDrawMatches, 1, 0, 1, 1);
-
-        checkBoxLocaliseObject = new QCheckBox(groupBox_3);
-        checkBoxLocaliseObject->setObjectName(QStringLiteral("checkBoxLocaliseObject"));
-
-        gridLayout_3->addWidget(checkBoxLocaliseObject, 2, 0, 1, 1);
-
-
-        gridLayout->addWidget(groupBox_3, 1, 0, 1, 1);
+        gridLayout->addWidget(groupBox_2, 1, 0, 1, 1);
 
         groupBox_4 = new QGroupBox(frame);
         groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
@@ -369,24 +340,20 @@ public:
         gridLayout_9->addWidget(label_8, 1, 0, 1, 1);
 
 
-        gridLayout->addWidget(groupBox_11, 5, 0, 1, 1);
+        gridLayout->addWidget(groupBox_11, 4, 0, 1, 1);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout->addItem(verticalSpacer, 6, 0, 1, 1);
+        gridLayout->addItem(verticalSpacer, 5, 0, 1, 1);
 
         groupBox_2->raise();
         groupBox->raise();
         groupBox_4->raise();
-        groupBox_3->raise();
         groupBox_11->raise();
 
         gridLayout_5->addWidget(frame, 0, 0, 1, 1);
 
         scrollArea->setWidget(scrollAreaWidgetContents);
-        pushButtonSceneImage->raise();
-        pushButtonSourceImage->raise();
-        frame->raise();
 
         gridLayout_4->addWidget(scrollArea, 0, 0, 1, 1);
 
@@ -425,8 +392,7 @@ public:
 
         MainWindow->setCentralWidget(centralWidget);
         QWidget::setTabOrder(pushButtonSourceImage, pushButtonSceneImage);
-        QWidget::setTabOrder(pushButtonSceneImage, checkBoxDrawMatches);
-        QWidget::setTabOrder(checkBoxDrawMatches, spinBoxMinHessian);
+        QWidget::setTabOrder(pushButtonSceneImage, spinBoxMinHessian);
         QWidget::setTabOrder(spinBoxMinHessian, spinBoxGoodMatchesThreshold);
         QWidget::setTabOrder(spinBoxGoodMatchesThreshold, pushButtonCpu);
         QWidget::setTabOrder(pushButtonCpu, pushButtonGpu);
@@ -458,10 +424,6 @@ public:
         checkBoxExtended->setText(QString());
         label_6->setText(QApplication::translate("MainWindow", "Upright only", 0));
         checkBoxUpright->setText(QString());
-        groupBox_3->setTitle(QApplication::translate("MainWindow", "Display options", 0));
-        checkBoxDrawKeyPoints->setText(QApplication::translate("MainWindow", "Draw Keypoints", 0));
-        checkBoxDrawMatches->setText(QApplication::translate("MainWindow", "Draw Matches", 0));
-        checkBoxLocaliseObject->setText(QApplication::translate("MainWindow", "Localise Object", 0));
         groupBox_4->setTitle(QApplication::translate("MainWindow", "Input", 0));
         pushButtonSourceImage->setText(QApplication::translate("MainWindow", "Object", 0));
         pushButtonSceneImage->setText(QApplication::translate("MainWindow", "Scene", 0));

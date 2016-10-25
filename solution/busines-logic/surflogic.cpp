@@ -44,6 +44,18 @@ void SurfLogic::resetMinAndMaxDistance(){
     max_dist = 0;
 }
 
+void SurfLogic::setSurfParameters(int threshold, int nOctaves, int octaveLayers,
+                                  bool extended, bool upright, int filter){
+    min_hessian = threshold;
+    num_octaves = nOctaves;
+    num_of_layers_per_octave = octaveLayers;
+    this->extended = extended;
+    this->upright = upright;
+    this->good_matches_threshold = 0.01 * filter;
+
+//    qDebug("hessian: %d, octaves: %d, layers %d, extended: %d, upright: %d, matches threshold: %f", min_hessian, num_octaves, num_of_layers_per_octave, this->extended, this->upright, good_matches_threshold);
+}
+
 int SurfLogic::loadImages(){
     // left image
     img_source = cv::imread(img_source_path, cv::IMREAD_GRAYSCALE);

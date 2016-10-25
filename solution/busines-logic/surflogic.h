@@ -177,6 +177,10 @@ public:
      /////////////////////////////
     */
 
+    // pass values for the parameters in the surf library
+    // later this values are used to specify how the SURF kernel is executed
+    void setSurfParameters(int threshold, int nOctaves, int octaveLayers, bool extenden, bool upright, int filter);
+
     // CPU version
     void executeOnCpu();
 

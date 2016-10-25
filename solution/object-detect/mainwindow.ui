@@ -63,7 +63,7 @@
          <x>0</x>
          <y>0</y>
          <width>332</width>
-         <height>698</height>
+         <height>581</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_5">
@@ -79,7 +79,7 @@
            <number>0</number>
           </property>
           <layout class="QGridLayout">
-           <item row="4" column="0">
+           <item row="3" column="0">
             <widget class="QGroupBox" name="groupBox">
              <property name="title">
               <string>Information about last kernel</string>
@@ -152,7 +152,7 @@
              </layout>
             </widget>
            </item>
-           <item row="2" column="0">
+           <item row="1" column="0">
             <widget class="QGroupBox" name="groupBox_2">
              <property name="title">
               <string>SURF Parameters</string>
@@ -230,7 +230,7 @@
                </widget>
               </item>
               <item row="2" column="2">
-               <widget class="QSpinBox" name="spinBox">
+               <widget class="QSpinBox" name="spinBoxOctaveLayers">
                 <property name="minimum">
                  <number>1</number>
                 </property>
@@ -266,36 +266,6 @@
              </layout>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QGroupBox" name="groupBox_3">
-             <property name="title">
-              <string>Display options</string>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_3">
-              <item row="0" column="0">
-               <widget class="QCheckBox" name="checkBoxDrawKeyPoints">
-                <property name="text">
-                 <string>Draw Keypoints</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QCheckBox" name="checkBoxDrawMatches">
-                <property name="text">
-                 <string>Draw Matches</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QCheckBox" name="checkBoxLocaliseObject">
-                <property name="text">
-                 <string>Localise Object</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
            <item row="0" column="0">
             <widget class="QGroupBox" name="groupBox_4">
              <property name="title">
@@ -319,7 +289,7 @@
              </layout>
             </widget>
            </item>
-           <item row="5" column="0">
+           <item row="4" column="0">
             <widget class="QGroupBox" name="groupBox_11">
              <property name="title">
               <string>Execution time in ms</string>
@@ -379,7 +349,7 @@
              </layout>
             </widget>
            </item>
-           <item row="6" column="0">
+           <item row="5" column="0">
             <spacer name="verticalSpacer">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -396,15 +366,11 @@
           <zorder>groupBox_2</zorder>
           <zorder>groupBox</zorder>
           <zorder>groupBox_4</zorder>
-          <zorder>groupBox_3</zorder>
           <zorder>groupBox_11</zorder>
           <zorder>verticalSpacer</zorder>
          </widget>
         </item>
        </layout>
-       <zorder>pushButtonSceneImage</zorder>
-       <zorder>pushButtonSourceImage</zorder>
-       <zorder>frame</zorder>
       </widget>
      </widget>
     </item>
@@ -466,7 +432,6 @@
  <tabstops>
   <tabstop>pushButtonSourceImage</tabstop>
   <tabstop>pushButtonSceneImage</tabstop>
-  <tabstop>checkBoxDrawMatches</tabstop>
   <tabstop>spinBoxMinHessian</tabstop>
   <tabstop>spinBoxGoodMatchesThreshold</tabstop>
   <tabstop>pushButtonCpu</tabstop>
